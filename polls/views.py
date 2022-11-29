@@ -1,10 +1,13 @@
-from django.http import HttpResponse
+from rest_framework import viewsets
+
+from .models import Question
+from .serializers import QuestionModelSerializer
 
 
-def index(request):
-    return HttpResponse("Hola! estamos haciendo mi primer app de django.")
-
-
-
-def prueba(request):
-    return HttpResponse("Hola! estás en el método prueba.")
+class QuestionViewSet(viewsets.ModelViewSet):
+    """
+    A simple ViewSet for viewing and editing accounts.
+    """
+    queryset = Question.objects.all()  # SELECT id, question_text, pub_date  FROM polls_question
+    serializer_class = QuestionModelSerializer
+    permission_classes = []
