@@ -1,13 +1,22 @@
 from rest_framework import viewsets
 
-from .models import Question
-from .serializers import QuestionModelSerializer
+from .models import Question, Choice
+from .serializers import QuestionModelSerializer, ChoiceModelSerializer
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
     """
-    A simple ViewSet for viewing and editing accounts.
+    Viewset para el modelo de Question.
     """
-    queryset = Question.objects.all()  # SELECT id, question_text, pub_date  FROM polls_question
+    queryset = Question.objects.prefetch_related('choice_set').all()  # SELECT id, question_text, pub_date  FROM polls_question
     serializer_class = QuestionModelSerializer
+    permission_classes = []
+
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    """
+    Viewset para el modelo de Choice.
+    """
+    queryset = Choice.objects.all()  # se debe utilizar select_related
+    serializer_class = ChoiceModelSerializer
     permission_classes = []
